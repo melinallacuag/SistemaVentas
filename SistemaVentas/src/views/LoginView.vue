@@ -1,5 +1,6 @@
 <template>
-  <div class="flex items-center justify-center min-h-screen bg-cover bg-center bg-no-repeat bg-[#fff]" style="background-image: linear-gradient(rgba(0, 0, 0, 0), rgba(0, 0, 0, 0.25)), url('https://assetdigitalcom.com/wp-content/uploads/2023/05/B2B-Digital-Marketing-Agency-scaled.jpeg');">
+  <div class="flex items-center justify-center min-h-screen bg-cover bg-center bg-no-repeat bg-[#fff]"
+    style="background-image: linear-gradient(rgba(0, 0, 0, 0), rgba(0, 0, 0, 0.25)), url('https://assetdigitalcom.com/wp-content/uploads/2023/05/B2B-Digital-Marketing-Agency-scaled.jpeg');">
     <div class="bg-white p-4 rounded-[15px] shadow-md w-full max-w-sm">
 
       <div class="w-full flex items-center justify-center mb-6">
@@ -10,14 +11,14 @@
 
         <div class="grid grid-cols-1 gap-4 mb-4">
           <div>
-            <label for="codigo" class="block text-sm font-medium text-black mb-2">Correo Electrónico</label>
-            <input type="text" v-model="username" id="username" @input="handleInputIdUsuario"
+            <label for="codigo" class="block text-sm font-medium text-gray-700 mb-2">Correo Electrónico</label>
+            <input type="text" v-model="email" id="email" @input="handleInputIdUsuario"
               placeholder="Ingresar Correo Electrónico"
               class="border border-gray-300 rounded-lg px-3 py-2 mb-2 w-full text-sm" />
-            <p v-if="errorMessages.username" class="text-red-500 text-xs ">{{ errorMessages.username }}</p>
+            <p v-if="errorMessages.email" class="text-red-500 text-xs ">{{ errorMessages.email }}</p>
           </div>
           <div>
-            <label for="contraseña" class="block text-sm font-medium text-black mb-2">Contraseña</label>
+            <label for="contraseña" class="block text-sm font-medium text-gray-700 mb-2">Contraseña</label>
             <div class="relative">
               <input :type="showPassword ? 'text' : 'password'" v-model="password" id="password"
                 @input="handleInputContrasenaUsuario" placeholder="Ingresar Contraseña"
@@ -30,19 +31,16 @@
           </div>
         </div>
 
-        <div class="flex justify-end space-x-4 mt-6">
-          <button type="submit"
-            class="w-full px-6 py-3 bg-[#f16e00] font-semibold text-white rounded-lg shadow-md hover:bg-[#ff7400] uppercase text-xs">
-            Iniciar Sesión
-          </button>
-        </div>
+        <button type="submit"
+          class="w-full px-6 py-3 bg-[#f16e00] font-semibold text-white rounded-lg shadow-md hover:bg-[#ff7400] uppercase text-xs">
+          Iniciar Sesión
+        </button>
       </form>
 
       <p class="text-black text-sm mt-6 mb-4 text-center">
-        <a href="https://powergroupsystem.com" target="_blank"
-          class="text-[#5a6676] hover:text-[#4a5565] hover:no-underline font-[400]">
-          ¿Haz olvidado tu contraseña?
-        </a>
+        <router-link to="/rcontrasena" class="text-[#5a6676] hover:text-[#ff7400] hover:no-underline font-[400]">
+          ¿Olvidaste tu contraseña?
+        </router-link>
       </p>
     </div>
   </div>
@@ -52,22 +50,21 @@
 export default {
   data() {
     return {
-      username: '',
+      email: '',
       password: '',
       alertMessage: "",
       alertMessageError: "",
       errorMessages: {
-        username: "",
+        email: "",
         password: "",
       },
       showPassword: false,
-      showPasswordConfirmation: false,
     };
   },
   methods: {
     handleInputIdUsuario() {
-      this.username = this.username.toUpperCase().slice(0, 30);
-      this.errorMessages.username = '';
+      this.email = this.email.slice(0, 40);
+      this.errorMessages.email = '';
     },
     handleInputContrasenaUsuario() {
       this.password = this.password.slice(0, 20);
@@ -80,8 +77,17 @@ export default {
       let isValid = true;
       this.errorMessages = {};
 
-      if (!this.username) {
-        this.errorMessages.username = '* El campo usuario es obligatoria';
+      if (!this.email) {
+        this.errorMessages.email = '* El campo correo electrónico es obligatoria';
+        isValid = false;
+      }else if (!this.email.includes("@")) {
+        this.errorMessages.email = '* El correo debe contener "@"';
+        isValid = false;
+      } else if (!this.email.split("@")[1] || !this.email.split("@")[1].includes(".")) {
+        this.errorMessages.email = '* Falta el dominio o el punto "." en el correo';
+        isValid = false;
+      } else if (!/^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/.test(this.email)) {
+        this.errorMessages.email = '* Ingresa un correo electrónico válido';
         isValid = false;
       }
 
@@ -95,7 +101,7 @@ export default {
     async handleLogin() {
       if (!this.validateForm()) return;
 
-      if (this.username === 'admin' && this.password === '1234') {
+      if (this.email === 'admin' && this.password === '1234') {
         localStorage.setItem('isAuth', 'true');
         this.$router.push('/dashboard');
       } else {

@@ -1,6 +1,8 @@
 import { createRouter, createWebHistory } from 'vue-router'
 import DashboardView from '../views/DashboardView.vue'
 import LoginView from '../views/LoginView.vue'
+import RContrasenaView from '../views/RContrasenaView.vue'
+import CContrasenaView from '../views/CContrasenaView.vue'
 
 const routes = [
     {
@@ -13,6 +15,16 @@ const routes = [
         name: 'Dashboard',
         component: DashboardView,
         meta: { secure: true }
+    },
+    {
+        path: '/rcontrasena',
+        name: 'RContrasena',
+        component: RContrasenaView
+    },
+    {
+        path: '/ccontrasena',
+        name: 'CContrasena',
+        component: CContrasenaView
     }
 ]
 
