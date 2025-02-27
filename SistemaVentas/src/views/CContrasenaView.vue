@@ -11,7 +11,7 @@
                     <div>
                         <label for="email" class="block text-sm font-medium text-gray-700 mb-2">Correo Electrónico</label>
                         <input type="text" v-model="email" id="email" @input="handleInputEmail"
-                            placeholder="Ingresar Correo Electrónico"
+                            placeholder="correo@dominio.com"
                             class="border border-gray-300 rounded-lg px-3 py-2 mb-2 w-full text-sm" />
                         <p v-if="errorMessages.email" class="text-red-500 text-xs ">{{ errorMessages.email }}</p>
                     </div>
@@ -19,7 +19,7 @@
                         <label for="password" class="block text-sm font-medium text-gray-700 mb-2">Nueva Contraseña</label>
                         <div class="relative">
                             <input :type="showPassword ? 'text' : 'password'" v-model="password" id="password"
-                                @input="handleInputContrasena" placeholder="Ingresar Nueva Contraseña"
+                                @input="handleInputContrasena" placeholder="************"
                                 class="border border-gray-300 rounded-lg px-3 py-2 mb-2 w-full text-sm" />
                             <span @click="toggleShowPassword" class="absolute right-4 top-2 cursor-pointer">
                                 <i :class="showPassword ? 'fas fa-eye' : 'fas fa-eye-slash'"></i>
@@ -32,7 +32,7 @@
                         <label for="newpassword" class="block text-sm font-medium text-gray-700 mb-2">Confirmar Contraseña</label>
                         <div class="relative">
                             <input :type="showPasswordConfirmation ? 'text' : 'password'" v-model="newpassword" id="newpassword" 
-                                @input="handleInputNewContrasena" placeholder="Confirmar Contraseña"
+                                @input="handleInputNewContrasena" placeholder="************"
                                 class="border border-gray-300 rounded-lg px-3 py-2 w-full text-sm mb-2" />
                             <span @click="toggleShowNewPassword" class="absolute right-4 top-2 cursor-pointer">
                                 <i :class="showPasswordConfirmation ? 'fas fa-eye' : 'fas fa-eye-slash'"></i>
@@ -44,7 +44,7 @@
 
                 <button type="submit"
                     class="w-full px-6 py-3 bg-[#f16e00] font-semibold text-white rounded-lg shadow-md hover:bg-[#ff7400] uppercase text-xs">
-                    Confirmar
+                    Cambiar contraseña
                 </button>
             </form>
         </div>

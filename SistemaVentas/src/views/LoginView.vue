@@ -13,7 +13,7 @@
           <div>
             <label for="codigo" class="block text-sm font-medium text-gray-700 mb-2">Correo Electrónico</label>
             <input type="text" v-model="email" id="email" @input="handleInputIdUsuario"
-              placeholder="Ingresar Correo Electrónico"
+              placeholder="correo@dominio.com"
               class="border border-gray-300 rounded-lg px-3 py-2 mb-2 w-full text-sm" />
             <p v-if="errorMessages.email" class="text-red-500 text-xs ">{{ errorMessages.email }}</p>
           </div>
@@ -21,7 +21,7 @@
             <label for="contraseña" class="block text-sm font-medium text-gray-700 mb-2">Contraseña</label>
             <div class="relative">
               <input :type="showPassword ? 'text' : 'password'" v-model="password" id="password"
-                @input="handleInputContrasenaUsuario" placeholder="Ingresar Contraseña"
+                @input="handleInputContrasenaUsuario" placeholder="************"
                 class="border border-gray-300 rounded-lg px-3 py-2 mb-2 w-full text-sm" />
               <span @click="toggleShowPassword" class="absolute right-4 top-2 cursor-pointer">
                 <i :class="showPassword ? 'fas fa-eye' : 'fas fa-eye-slash'"></i>
