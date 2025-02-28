@@ -7,6 +7,7 @@
   
   <script>
   export default {
+    name: "Dashboard",
     methods: {
       logout() {
         localStorage.removeItem('isAuth'); 

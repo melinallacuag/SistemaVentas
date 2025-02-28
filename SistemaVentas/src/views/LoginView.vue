@@ -101,7 +101,7 @@ export default {
     async handleLogin() {
       if (!this.validateForm()) return;
 
-      if (this.email === 'admin' && this.password === '1234') {
+      if (this.email === 'admin@gmail.com' && this.password === '1234') {
         localStorage.setItem('isAuth', 'true');
         this.$router.push('/dashboard');
       } else {
