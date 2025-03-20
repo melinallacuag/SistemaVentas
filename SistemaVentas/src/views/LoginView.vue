@@ -101,9 +101,25 @@ export default {
     async handleLogin() {
       if (!this.validateForm()) return;
 
+      const response = await api.post("/Login/inicio-sesion", {
+          Usuario: base64Username,
+          Clave: base64Password,
+        });
+
+        if (response.data.mensajeError === null) {
+          localStorage.setItem("isLoggedIn", "true");
+          localStorage.setItem("usuario", response.data.r1);
+          localStorage.setItem("nombre", response.data.r2);
+          localStorage.setItem("token", response.data.r4);
+          localStorage.setItem("rol", response.data.r5);
+          this.$router.replace("/");
+        } else {
+          this.mostrarNotificacionError('Credenciales incorrectas o inactivas.', () => { });
+        }
+
       if (this.email === 'admin@gmail.com' && this.password === '1234') {
         localStorage.setItem('isAuth', 'true');
-        this.$router.push('/dashboard');
+        this.$router.push('/');
       } else {
         alert('Credenciales incorrectas');
       }

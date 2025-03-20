@@ -27,10 +27,11 @@ const routes = [
     },
     {
         path: '/',
+        name: "Layout",
         component: Layout,
         children: [
             {
-                path: '/dashboard',
+                path: '/',
                 name: 'Dashboard',
                 component: DashboardView,
                 meta: { secure: true }
