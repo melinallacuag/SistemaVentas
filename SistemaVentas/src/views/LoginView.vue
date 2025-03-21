@@ -47,6 +47,8 @@
 </template>
 
 <script>
+import axios from 'axios';
+
 export default {
   data() {
     return {
@@ -101,27 +103,32 @@ export default {
     async handleLogin() {
       if (!this.validateForm()) return;
 
-      const response = await api.post("/Login/inicio-sesion", {
-          Usuario: base64Username,
-          Clave: base64Password,
-        });
+      try{
 
-        if (response.data.mensajeError === null) {
-          localStorage.setItem("isLoggedIn", "true");
-          localStorage.setItem("usuario", response.data.r1);
-          localStorage.setItem("nombre", response.data.r2);
-          localStorage.setItem("token", response.data.r4);
-          localStorage.setItem("rol", response.data.r5);
-          this.$router.replace("/");
-        } else {
-          this.mostrarNotificacionError('Credenciales incorrectas o inactivas.', () => { });
+        await axios.get("/sanctum/csrf-cookie",{
+          withCredentials: true,
+        })
+
+        const response = await axios.post("/api/login",{
+            email:this.email,
+            password: this.password,
+          },
+          {
+            withCredentials: true,
+            withXSRFToken: true,
+            headers:{
+              "Content-Type": "application/json",
+              "Accept": "application/json",
+            } 
+          }
+        )
+
+        if(response.status === 200){
+          this.$router.push('/');
         }
 
-      if (this.email === 'admin@gmail.com' && this.password === '1234') {
-        localStorage.setItem('isAuth', 'true');
-        this.$router.push('/');
-      } else {
-        alert('Credenciales incorrectas');
+      }catch(error){
+        console.log(error)
       }
     }
   }
