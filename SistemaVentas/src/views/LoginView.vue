@@ -46,6 +46,7 @@
   </div>
 </template>
 
+
 <script>
 import axios from 'axios';
 
@@ -103,32 +104,38 @@ export default {
     async handleLogin() {
       if (!this.validateForm()) return;
 
-      try{
-
-        await axios.get("/sanctum/csrf-cookie",{
+      try {
+        await axios.get("http://api.salesapi.test/sanctum/csrf-cookie", {
           withCredentials: true,
-        })
+        });
 
-        const response = await axios.post("/api/login",{
-            email:this.email,
+        const response = await axios.post(
+          "http://api.salesapi.test/api/login",
+          {
+            email: this.email,
             password: this.password,
           },
           {
-            withCredentials: true,
+            withCredentials: true, // Enviar cookies de sesión para Sanctum
             withXSRFToken: true,
-            headers:{
+            headers: {
               "Content-Type": "application/json",
               "Accept": "application/json",
-            } 
+            },
           }
-        )
+        );
 
-        if(response.status === 200){
-          this.$router.push('/');
+        if (response.data.token) {
+          localStorage.setItem("isLoggedIn", "true");
+          localStorage.setItem("usuario", response.data.user);
+          localStorage.setItem("token", response.data.token);
+          this.$router.replace("/");
+        } else {
+          this.alertMessageError = 'Credenciales incorrectas o inactivas.';
         }
-
-      }catch(error){
-        console.log(error)
+      } catch (error) {
+        console.error("Error en login:", error);
+        this.alertMessageError = "Error al iniciar sesión. Verifica tus datos.";
       }
     }
   }
